@@ -1,0 +1,28 @@
+tnts:
+  'sheptun':
+    explosion:
+      yield: 4
+      setGlowing: false
+      fuseTicks: 40
+      damaged: 0
+    item:
+      name: "&fШептун"
+      lore: []
+  'molotov':
+    explosion:
+      yield: 10
+      setGlowing: false
+      fuseTicks: 40
+      damaged: 0
+    item:
+      name: "&fМолотов"
+      lore: []
+  'k-12':
+    explosion:
+      yield: 4
+      setGlowing: false
+      fuseTicks: 40
+      damaged: 1
+    item:
+      name: "&fК-12"
+      lore: []

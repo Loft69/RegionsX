@@ -1,0 +1,9 @@
+name: PotionRegions
+version: '${project.version}'
+main: dev.thew.potionregions.PotionRegions
+api-version: '1.16'
+depend:
+  - Regions
+authors:
+  - Thew
+description: Addon for Regions

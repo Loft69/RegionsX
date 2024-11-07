@@ -1,0 +1,9 @@
+name: TNTRegions
+version: '${project.version}'
+main: dev.thew.tntregions.TNTRegions
+api-version: '1.16'
+depend:
+  - Regions
+commands:
+  customtnt:
+    permission: tntregions.use
