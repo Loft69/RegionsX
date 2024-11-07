@@ -10,8 +10,8 @@
 
     <modules>
         <module>Regions</module>
-        <module>TNTRegions</module>
-        <module>PotionRegions</module>
+        <module>RegionsTNT</module>
+        <module>RegionsPotion</module>
     </modules>
 
     <properties>
