@@ -35,9 +35,4 @@ public final class TNTRegions extends JavaPlugin {
         PluginCommand command = getCommand("customtnt");
         if (command != null) command.setExecutor(new TNTCommand(tntService));
     }
-
-    @Override
-    public void onDisable() {
-
-    }
 }

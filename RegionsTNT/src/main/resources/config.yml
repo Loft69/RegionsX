@@ -22,7 +22,7 @@ tnts:
     fire:
       enable: true
       radius: 10
-      ticks: 60
+      ticks: 200
     explosion:
       yield: 10
       setGlowing: false

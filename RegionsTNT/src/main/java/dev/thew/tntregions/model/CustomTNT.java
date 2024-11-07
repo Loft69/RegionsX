@@ -1,10 +1,8 @@
 package dev.thew.tntregions.model;
 
 import dev.thew.tntregions.TNTRegions;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -81,7 +79,7 @@ public class CustomTNT {
     public void spawnEntity(Player initializer, Block block) {
 
         World world = initializer.getWorld();
-        TNTPrimed tntPrimed = (TNTPrimed) world.spawnEntity(block.getLocation().clone().add(0.5, 1, 0.5), EntityType.PRIMED_TNT);
+        TNTPrimed tntPrimed = (TNTPrimed) world.spawnEntity(block.getLocation().clone().add(0.5, 0, 0.5), EntityType.PRIMED_TNT);
 
         tntPrimed.setFuseTicks(fuseTicks);
         tntPrimed.setGlowing(isGlowing);

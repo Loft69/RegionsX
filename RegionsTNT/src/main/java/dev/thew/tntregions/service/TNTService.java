@@ -5,7 +5,6 @@ import dev.thew.regions.handler.Handler;
 import dev.thew.regions.handler.HandlerService;
 import dev.thew.regions.handler.RegionHandler;
 import dev.thew.regions.handler.service.RegionService;
-import dev.thew.regions.handler.service.VisitorsService;
 import dev.thew.regions.handler.service.VisualizationService;
 import dev.thew.regions.model.BreakCause;
 import dev.thew.regions.model.Region;
@@ -13,9 +12,7 @@ import dev.thew.tntregions.TNTRegions;
 import dev.thew.tntregions.model.CustomTNT;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.server.v1_16_R3.IFluidContainer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -25,11 +22,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -152,17 +147,10 @@ public class TNTService implements Listener, Handler {
             player.setFireTicks(customTNT.getFireTicks());
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onClick(PlayerInteractEvent event) {
-        Action action = event.getAction();
-        if (action != Action.RIGHT_CLICK_BLOCK) return;
-
-        boolean hasBlock = event.hasBlock();
-        boolean hasItem = event.hasItem();
-        if (!hasBlock && !hasItem) return;
-
-        ItemStack item = event.getItem();
-        if (item == null) return;
+    @EventHandler
+    public void onBlock(BlockPlaceEvent event) {
+        ItemStack item = event.getItemInHand();
+        if (!item.getType().equals(Material.TNT)) return;
 
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta == null) return;
@@ -174,8 +162,8 @@ public class TNTService implements Listener, Handler {
         CustomTNT customTNT = getCustomTNT(itemKey);
         if (customTNT == null) return;
 
-        Block block = event.getClickedBlock();
-        if (block == null) return;
+        Block block = event.getBlockPlaced();
+        block.setType(Material.AIR);
 
         Player player = event.getPlayer();
         customTNT.spawnEntity(player, block);

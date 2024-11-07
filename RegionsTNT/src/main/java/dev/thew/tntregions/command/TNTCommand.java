@@ -21,7 +21,7 @@ public class TNTCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NonNull CommandSender sender,@NonNull Command command,@NonNull String s,String @NonNull [] args) {
         if (sender instanceof Player player) {
-            if (args.length > 1) return false;
+            if (args.length != 1) return false;
             String name = args[0];
             CustomTNT customTNT = tntService.getCustomTNT(name);
             if (customTNT == null) {
@@ -32,12 +32,23 @@ public class TNTCommand implements TabExecutor {
             PlayerInventory playerInventory = player.getInventory();
             playerInventory.addItem(customTNT.getItem().clone()).forEach((x, y) -> player.getWorld().dropItem(player.getLocation(), y));
         } else {
+            if (args.length != 2) return false;
             String playerName = args[0];
             Player player = Bukkit.getPlayerExact(playerName);
             if (player == null) {
                 sender.sendMessage(" Игрок не найден!");
                 return false;
             }
+
+            String name = args[1];
+            CustomTNT customTNT = tntService.getCustomTNT(name);
+            if (customTNT == null) {
+                player.sendMessage(" Кастомный ТНТ не найден!");
+                return false;
+            }
+
+            PlayerInventory playerInventory = player.getInventory();
+            playerInventory.addItem(customTNT.getItem().clone()).forEach((x, y) -> player.getWorld().dropItem(player.getLocation(), y));
         }
 
         return false;

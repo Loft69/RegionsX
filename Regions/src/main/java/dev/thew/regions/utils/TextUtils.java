@@ -16,6 +16,6 @@ public class TextUtils {
         String worldName = world.getName();
         String coords = location.getBlockX() + " " + location.getBlockY() + " " + location.getBlockZ();
 
-        return  coords + " §8(§7" + worldName + "§8)";
+        return coords + " §8(§7" + worldName + "§8)";
     }
 }
