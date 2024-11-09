@@ -89,7 +89,42 @@ types:
 
 * The ability to give a potion effect to a player who has entered a certain region
 
+### config.yml
+``` yml
+effects:
+  'donate':
+    regionTypeId: 'donate' # from Regions.regionTypes.yml
+    list:
+      '0':
+        type: FAST_DIGGING
+        duration: 99999
+        amplifier: 2
+        ambient: true
+        particle: true
+```
+
 ## RegionsTNT
 
 * Adds custom TNT. By default, it prohibits the explosion of a region from the core
 
+### config.yml
+``` yml
+tnts:
+  'customtnt':
+    corners:  # If TNT blows up the region, the borders will be replaced
+      enable: false
+      material: AIR
+    fire: # Fire to all players within the TNT range
+      enable: false
+      radius: 0
+      ticks: 0
+    toremove: [] # Blocks in the radius (any) will be replaced
+    explosion:
+      yield: 4
+      setGlowing: false
+      fuseTicks: 40
+      damaged: 0
+    item:
+      name: "&fCustomTNT"
+      lore: []
+```
