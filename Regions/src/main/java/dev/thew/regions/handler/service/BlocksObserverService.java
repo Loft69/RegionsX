@@ -6,6 +6,7 @@ import dev.thew.regions.craft.ExplosionDamageCalculator;
 import dev.thew.regions.event.RegionExplodeEvent;
 import dev.thew.regions.event.RegionRemovePrimeEvent;
 import dev.thew.regions.model.BreakCause;
+import dev.thew.regions.utils.Message;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import dev.thew.regions.Regions;
@@ -85,7 +86,7 @@ public class BlocksObserverService implements Listener, Handler {
         if (region == null) return;
 
         if (!region.isOwner(player.getName())) {
-            Regions.sendError(player, "Вы не являетесь владельцем этого привата");
+            Regions.sendError(player, Message.U_NOT_OWNER);
             event.setCancelled(true);
             return;
         }
@@ -118,7 +119,7 @@ public class BlocksObserverService implements Listener, Handler {
         if (region == null) return;
 
         if (!region.isMemberOrOwner(player.getName())) {
-            Regions.sendError(player, "Вы не являетесь участником привата");
+            Regions.sendError(player, Message.U_NOT_MEMBER);
             return;
         }
 
@@ -128,12 +129,12 @@ public class BlocksObserverService implements Listener, Handler {
 
     @EventHandler
     public void onPistonExtend(BlockPistonExtendEvent event) {
-        removeRegionFromExplosion(event.getBlocks());
+        if (!regionsExist(event.getBlocks()).isEmpty()) event.setCancelled(true);
     }
 
     @EventHandler
     public void onPistonRetract(BlockPistonRetractEvent event) {
-        removeRegionFromExplosion(event.getBlocks());
+        if (!regionsExist(event.getBlocks()).isEmpty()) event.setCancelled(true);
     }
 
     @EventHandler
@@ -146,15 +147,21 @@ public class BlocksObserverService implements Listener, Handler {
         removeRegionFromExplosion(event.blockList());
     }
 
-    private void removeRegionFromExplosion(List<Block> blocks) {
+    private List<Region> regionsExist(List<Block> list) {
         List<Region> regions = new ArrayList<>();
 
-        for (Block block : blocks){
+        for (Block block : list){
             Region region = getRegionFromBlock(block);
             if (region == null) continue;
 
             regions.add(region);
         }
+
+        return regions;
+    }
+
+    private void removeRegionFromExplosion(List<Block> blocks) {
+        List<Region> regions = regionsExist(blocks);
 
         for (Region region : regions)
             blocks.removeIf(block -> block.equals(region.getBaseLocation().getBlock()));
@@ -247,7 +254,7 @@ public class BlocksObserverService implements Listener, Handler {
         WorldServer worldServer = ((CraftWorld) world).getHandle();
 
         ExplosionDamageCalculator explosionDamageCalculator = new ExplosionDamageCalculator();
-        Explosion explosion = new Explosion(explosionDamageCalculator, worldServer, world, x, y, z, size);
+        Explosion explosion = new Explosion(explosionDamageCalculator, worldServer, world, x, y, z, size, true);
 
         return explosion.explode();
     }

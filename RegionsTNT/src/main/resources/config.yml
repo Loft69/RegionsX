@@ -7,6 +7,7 @@ tnts:
       enable: false
       radius: 0
       ticks: 0
+    toremove: []
     explosion:
       yield: 4
       setGlowing: false
@@ -23,6 +24,7 @@ tnts:
       enable: true
       radius: 10
       ticks: 200
+    toremove: []
     explosion:
       yield: 10
       setGlowing: false
@@ -39,6 +41,8 @@ tnts:
       enable: false
       radius: 0
       ticks: 0
+    toremove:
+      - OBSIDIAN
     explosion:
       yield: 4
       setGlowing: false

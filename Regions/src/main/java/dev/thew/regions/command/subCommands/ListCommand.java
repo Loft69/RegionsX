@@ -6,6 +6,7 @@ import dev.thew.regions.handler.HandlerService;
 import dev.thew.regions.handler.service.RegionService;
 import dev.thew.regions.model.Region;
 import dev.thew.regions.handler.RegionHandler;
+import dev.thew.regions.utils.Message;
 import dev.thew.regions.utils.TextUtils;
 import org.bukkit.entity.Player;
 
@@ -26,7 +27,7 @@ public class ListCommand extends SubCommand {
         if (args.length == 1) {
 
             if (!player.hasPermission("regions.command.list.others")) {
-                Regions.sendError(player, "У вас нет прав для просмотра чужих приватов");
+                Regions.sendError(player, Message.CANT_LIST_OTHER_REGIONS);
                 return;
             }
 

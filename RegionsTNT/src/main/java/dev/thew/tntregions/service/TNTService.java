@@ -1,50 +1,38 @@
 package dev.thew.tntregions.service;
 
-import dev.thew.regions.event.RegionExplodeEvent;
 import dev.thew.regions.handler.Handler;
-import dev.thew.regions.handler.HandlerService;
-import dev.thew.regions.handler.RegionHandler;
-import dev.thew.regions.handler.service.RegionService;
-import dev.thew.regions.handler.service.VisualizationService;
-import dev.thew.regions.model.BreakCause;
-import dev.thew.regions.model.Region;
 import dev.thew.tntregions.TNTRegions;
 import dev.thew.tntregions.model.CustomTNT;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import lombok.SneakyThrows;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.metadata.FixedMetadataValue;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
-public class TNTService implements Listener, Handler {
+public class TNTService implements Handler {
 
     private FileConfiguration config = null;
     private final List<CustomTNT> tnts = new ArrayList<>();
+    private final HashMap<Block, CustomTNT> cache = new HashMap<>();
     private NamespacedKey namespacedKey = null;
 
     @Override
     public void load() {
         TNTRegions tntRegions = TNTRegions.getInstance();
-        Bukkit.getPluginManager().registerEvents(this, tntRegions);
+
+
 
         namespacedKey = new NamespacedKey(tntRegions, "CustomTNT");
 
@@ -84,8 +72,19 @@ public class TNTService implements Listener, Handler {
             int radius = fireSection.getInt("radius");
             int ticks = fireSection.getInt("ticks");
 
+            List<Material> toRemove = new ArrayList<>();
+            List<String> toRemoveLore = tntSection.getStringList("toremove");
+
+            for (String str : toRemoveLore) {
+                Material mat = Material.getMaterial(str.toUpperCase());
+                if (mat == null) continue;
+                if (mat.equals(Material.AIR)) continue;
+
+                toRemove.add(mat);
+            }
 
             CustomTNT customTNT = CustomTNT.builder()
+                    .toRemove(toRemove)
                     .radius(radius)
                     .isGlowing(setGlowing)
                     .itemName(name)
@@ -100,82 +99,99 @@ public class TNTService implements Listener, Handler {
                     .fireTicks(ticks)
                     .yield(yield).build();
 
-            //CustomTNT(key, yield, fuseTicks, setGlowing, damage, name, lore, enable, material);
-            // String key, double yield, int fuseTicks, boolean setGlowing, int damage, String itemName, List<String> lore) {
             tnts.add(customTNT);
+        }
+
+        File file = new File(TNTRegions.getInstance().getDataFolder().getAbsolutePath());
+        File[] files = file.listFiles();
+        if (files != null && files.length > 1) {
+            for (File f : files) {
+                if (!f.getName().equalsIgnoreCase("config.yml")) {
+                    String id = f.getName();
+                    createCacheById(id, f);
+                }
+            }
+        }
+    }
+
+    @SneakyThrows
+    @Override
+    public void shutdown() {
+
+        File file = new File(TNTRegions.getInstance().getDataFolder().getAbsolutePath());
+        File[] files = file.listFiles();
+        if (files != null && files.length > 1) {
+            for (File f : files) {
+                if (!f.getName().equalsIgnoreCase("config.yml")){
+                    boolean isDelete = f.delete();
+                    if (isDelete) System.out.println("Deleted " + f.getName());
+                    else System.out.println("Failed to delete " + f.getName());
+                }
+
+            }
+        }
+
+        for (Map.Entry<Block, CustomTNT> entry : cache.entrySet()) {
+            Block block = entry.getKey();
+            if (block == null) continue;
+            if (!block.getType().equals(Material.TNT)) continue;
+
+            String generateId = generateId(entry.getKey(), entry.getValue().getName());
+            File ff = new File(TNTRegions.getInstance().getDataFolder().getAbsolutePath(), generateId);
+            if (!ff.exists()){
+                boolean isCreated = ff.createNewFile();
+                if (isCreated) System.out.println("File " + generateId + " success create");
+                else System.out.println("File " + generateId + " failed create");
+            }
+
+
+
         }
 
     }
 
-    @Override
-    public void shutdown() {}
+    private void createCacheById(String raw, File file) {
+        String[] args = raw.split(";");
+        if (args.length != 5) throw new RuntimeException("Invalid number of arguments in yml file " + raw);
 
-    @EventHandler
-    public void onExplode(RegionExplodeEvent event) {
-        Region region = event.getRegion();
-        Entity entity = event.getEntity();
+        String worldName = args[0];
+        int x = Integer.parseInt(args[1]);
+        int y = Integer.parseInt(args[2]);
+        int z = Integer.parseInt(args[3]);
+        String name = args[4];
 
-        if (region == null) return;
-        if (!(entity instanceof TNTPrimed tntPrimed)) return;
+        World world = Bukkit.getWorld(worldName);
+        if (world == null) throw new RuntimeException("World " + worldName + " not found");
 
-        if (region.haveEndurance()) event.setCancelled(true);
+        Block block = world.getBlockAt(x, y, z);
+        if (!block.getType().equals(Material.TNT)) {
+            file.delete();
+            return;
+        }
 
-        CustomTNT customTNT = getCustomTNT(tntPrimed);
-        if (customTNT == null) return;
-        if (!region.haveEndurance()) return;
-        if (!customTNT.haveDamage()) return;
+        CustomTNT customTNT = getCustomTNT(name);
+        if (customTNT == null) throw new RuntimeException("CustomTNT " + name + " not found");
 
-        event.setCancelled(true);
-
-        int damage = customTNT.getDamage();
-        RegionHandler regionHandler = HandlerService.getHandler(RegionService.class);
-        regionHandler.damageRegion(region, damage, BreakCause.EXPLOSION);
-
-        if (customTNT.isSetCorners()) VisualizationService.setCorners(region, customTNT.getMaterial());
+        cache.put(block, customTNT);
     }
 
-    @EventHandler
-    public void onExplode(EntityExplodeEvent event) {
-        Entity entity = event.getEntity();
-        if (!(entity instanceof TNTPrimed tntPrimed)) return;
+    private String generateId(Block block, String name) {
+        World world = block.getWorld();
+        int x = block.getX();
+        int y = block.getY();
+        int z = block.getZ();
 
-        CustomTNT customTNT = getCustomTNT(tntPrimed);
-        if (customTNT == null) return;
+        String worldName = world.getName();
 
-        List<Player> players = customTNT.getNearPlayers();
-        for (Player player : players)
-            player.setFireTicks(customTNT.getFireTicks());
+        return worldName + ";" + x + ";" + y + ";" + z + ";" + name;
     }
 
-    @EventHandler
-    public void onBlock(BlockPlaceEvent event) {
-        ItemStack item = event.getItemInHand();
-        if (!item.getType().equals(Material.TNT)) return;
+    public CustomTNT getCustomTNT(TNTPrimed tntPrimed) {
+        for (Map.Entry<Block, CustomTNT> entry : cache.entrySet()) {
 
-        ItemMeta itemMeta = item.getItemMeta();
-        if (itemMeta == null) return;
-        PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
-        if (!dataContainer.has(namespacedKey, PersistentDataType.STRING)) return;
-
-        String itemKey = dataContainer.get(namespacedKey, PersistentDataType.STRING);
-
-        CustomTNT customTNT = getCustomTNT(itemKey);
-        if (customTNT == null) return;
-
-        Block block = event.getBlockPlaced();
-        block.setType(Material.AIR);
-
-        Player player = event.getPlayer();
-        customTNT.spawnEntity(player, block);
-
-        item.setAmount(item.getAmount() - 1);
-    }
-
-    public CustomTNT getCustomTNT(TNTPrimed tntPrimed){
-        for (CustomTNT tnt : tnts) {
-            TNTPrimed tntPrime = tnt.getEntity();
+            TNTPrimed tntPrime = entry.getValue().getEntity();
             if (tntPrime == null) continue;
-            if (tntPrime.equals(tntPrimed)) return tnt;
+            if (tntPrime.equals(tntPrimed)) return entry.getValue();
         }
 
         return null;
@@ -191,4 +207,46 @@ public class TNTService implements Listener, Handler {
         for (CustomTNT tnt : tnts) ids.add(tnt.getName());
         return ids;
     }
+
+    public void setMetaDataPlacedBlock(String data, Block block) {
+        block.setMetadata(data, new FixedMetadataValue(TNTRegions.getInstance(), data));
+    }
+
+    public String isTNTBlock(Block block) {
+        if (!block.getType().equals(Material.TNT)) return null;
+        return isTNTMeta(block);
+    }
+
+    public CustomTNT getCacheTNT(Block block){
+        return cache.getOrDefault(block, null);
+    }
+
+    public String isTNTMeta(Block block) {
+        for (CustomTNT customTNT : tnts)
+            if (block.hasMetadata(customTNT.getName())) return customTNT.getName();
+
+        return "";
+    }
+
+    public void remove(Block block) {
+        cache.remove(block);
+    }
+
+    public void remove(CustomTNT customTNT) {
+        List<Block> forRemove = new ArrayList<>();
+
+        for (Map.Entry<Block, CustomTNT> entry : cache.entrySet()) {
+            CustomTNT oldTnt = entry.getValue();
+            if (oldTnt.getEntity().equals(customTNT.getEntity())) forRemove.add(entry.getKey());
+        }
+
+        for (Block block : forRemove) remove(block);
+    }
+
+    public void put(Block block, CustomTNT customTNT){
+        cache.put(block, customTNT);
+    }
+
+
 }
+
