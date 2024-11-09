@@ -2,7 +2,6 @@ package dev.thew.regions.craft;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import lombok.Getter;
 import net.minecraft.server.v1_16_R3.BlockPosition;
 import net.minecraft.server.v1_16_R3.Fluid;
 import net.minecraft.server.v1_16_R3.IBlockData;
@@ -12,7 +11,7 @@ import org.bukkit.block.Block;
 import java.util.*;
 
 public record Explosion(ExplosionDamageCalculator explosionDamageCalculator, World world, org.bukkit.World bukkitWorld,
-                        double posX, double posY, double posZ, float size) {
+                        double posX, double posY, double posZ, float size, boolean isFirst) {
 
     public List<Block> explode() {
         if (this.size < 0.1F)
@@ -52,7 +51,8 @@ public record Explosion(ExplosionDamageCalculator explosionDamageCalculator, Wor
                             boolean find = false;
 
                             if (f > 0.0F && blockposition.getY() < 256 && blockposition.getY() >= 0 && !iblockdata.isAir()) {
-                                find = true;
+                                if (isFirst)
+                                    find = true;
                                 set.add(blockposition);
                             }
 
@@ -60,7 +60,7 @@ public record Explosion(ExplosionDamageCalculator explosionDamageCalculator, Wor
                             d5 += d1 * 0.30000001192092896D;
                             d6 += d2 * 0.30000001192092896D;
 
-                            if (find) break;
+                            if (find && isFirst) break;
                         }
                     }
                 }

@@ -21,6 +21,10 @@ public class TNTCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NonNull CommandSender sender,@NonNull Command command,@NonNull String s,String @NonNull [] args) {
         if (sender instanceof Player player) {
+            if (args.length == 0) {
+                player.sendMessage(tntService.getCache().size() + " ");
+                return true;
+            }
             if (args.length != 1) return false;
             String name = args[0];
             CustomTNT customTNT = tntService.getCustomTNT(name);

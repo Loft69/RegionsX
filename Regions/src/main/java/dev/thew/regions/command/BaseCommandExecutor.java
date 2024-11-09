@@ -2,6 +2,7 @@ package dev.thew.regions.command;
 
 import dev.thew.regions.handler.HandlerService;
 import dev.thew.regions.handler.service.RegionService;
+import dev.thew.regions.utils.Message;
 import lombok.NonNull;
 import dev.thew.regions.Regions;
 import dev.thew.regions.command.subCommands.AddSubCommand;
@@ -49,7 +50,7 @@ public class BaseCommandExecutor implements TabExecutor {
         String subCommandLabel = args[0].toLowerCase();
         SubCommand subCommand = this.subCommands.getOrDefault(subCommandLabel, null);
         if (subCommand == null) {
-            Regions.sendError(player, "Команда не найдена. Используйте §7/base help");
+            Regions.sendError(player, Message.COMMAND_NOT_FOUND);
             return true;
         }
 

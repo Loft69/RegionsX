@@ -1,6 +1,7 @@
 package dev.thew.tntregions;
 
 import dev.thew.tntregions.command.TNTCommand;
+import dev.thew.tntregions.service.TNTListener;
 import dev.thew.tntregions.service.TNTService;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public final class TNTRegions extends JavaPlugin {
     private static TNTRegions instance;
     @Getter
     private final TNTService tntService = new TNTService();
+    private final TNTListener tntListener = new TNTListener();
 
     @Override
     public void onEnable() {
@@ -27,8 +29,14 @@ public final class TNTRegions extends JavaPlugin {
 
         tntService.setConfig(config);
         tntService.load();
+        tntListener.load();
 
         hookCommand();
+    }
+
+    @Override
+    public void onDisable() {
+        tntService.shutdown();
     }
 
     private void hookCommand(){

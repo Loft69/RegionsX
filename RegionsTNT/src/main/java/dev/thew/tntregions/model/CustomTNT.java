@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.inventory.ItemStack;
@@ -33,10 +32,22 @@ public class CustomTNT {
     private final boolean isFire;
     private final int radius;
     private final int fireTicks;
+    private final List<Material> toRemove;
     private TNTPrimed entity;
 
     public boolean haveDamage(){
         return this.damage > 0;
+    }
+
+    public void removeMaterial(List<Block> blocks){
+        for(Block block : blocks){
+            Material material = block.getType();
+            if (toRemove.contains(material)) block.setType(Material.AIR);
+        }
+    }
+
+    public boolean isRemoveEnable(){
+        return toRemove != null && !toRemove.isEmpty();
     }
 
     public ItemStack getItem(){
@@ -76,16 +87,12 @@ public class CustomTNT {
         return nearPlayers;
     }
 
-    public void spawnEntity(Player initializer, Block block) {
+    public void spawnEntity(TNTPrimed newprime) {
+        newprime.setFuseTicks(fuseTicks);
+        newprime.setGlowing(isGlowing);
+        newprime.setYield((float) yield);
 
-        World world = initializer.getWorld();
-        TNTPrimed tntPrimed = (TNTPrimed) world.spawnEntity(block.getLocation().clone().add(0.5, 0, 0.5), EntityType.PRIMED_TNT);
-
-        tntPrimed.setFuseTicks(fuseTicks);
-        tntPrimed.setGlowing(isGlowing);
-        tntPrimed.setYield((float) yield);
-
-        entity = tntPrimed;
+        entity = newprime;
     }
 
 }

@@ -6,6 +6,7 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
+import dev.thew.regions.utils.Message;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import dev.thew.regions.Regions;
@@ -25,7 +26,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.PermissionAttachmentInfo;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 import java.util.*;
@@ -178,12 +178,12 @@ public class RegionService implements RegionHandler {
 
         for (Region region : regions)
             if (region.isCrossing(selection)) {
-                Regions.sendError(player, "Приват пересекается с другим приватом");
+                Regions.sendError(player, Message.REGIONS_CROSSING);
                 return false;
             }
 
         if (checkWGRegion(location, regionType)){
-            Regions.sendError(player, "Приват пересекается с другим приватом");
+            Regions.sendError(player, Message.REGIONS_CROSSING);
             return false;
         }
 
