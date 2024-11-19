@@ -23,19 +23,20 @@ public class RemoveSubCommand extends SubCommand {
             return;
         }
 
-        String nickname = args[0];
-
-        if (nickname.equalsIgnoreCase(player.getName())){
-            Regions.sendError(player, Message.CANT_ADD_YOURSELF);
-            return;
-        }
-
         RegionHandler regionsService = HandlerService.getHandler(RegionService.class);
 
         Region region = regionsService.getRegion(player.getLocation());
 
         if (region == null){
             Regions.sendError(player, Message.NOT_YOUR_REGION);
+            return;
+        }
+
+        if (!region.getRegionType().useCommand()) return;
+        String nickname = args[0];
+
+        if (nickname.equalsIgnoreCase(player.getName())){
+            Regions.sendError(player, Message.CANT_ADD_YOURSELF);
             return;
         }
 
