@@ -22,4 +22,5 @@ public class FileUtils {
 
         return YamlConfiguration.loadConfiguration(file);
     }
+
 }
