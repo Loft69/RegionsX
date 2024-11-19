@@ -18,6 +18,7 @@ types:
     endurance: 0
     canExplode: true
     radius: 5
+    useCommand: true
     worlds:
       - world
     color: "§x§f§f§c§1§0§7"
@@ -36,6 +37,7 @@ types:
     material: EMERALD_BLOCK
     canExplode: true
     radius: 15
+    useCommand: true
     endurance: 0
     worlds:
       - world
@@ -55,6 +57,7 @@ types:
     material: EMERALD_ORE
     radius: 20
     canExplode: true
+    useCommand: true
     endurance: 0
     worlds:
       - world
@@ -76,6 +79,7 @@ types:
     radius: 25
     canExplode: true
     endurance: 2
+    useCommand: true
     worlds:
       - world
     color: "§x§8§d§6§3§3§7"
@@ -95,11 +99,12 @@ types:
     material: NETHERITE_BLOCK
     radius: 30
     canExplode: true
+    useCommand: true
     endurance: 3
     worlds:
       - world
     color: "§x§8§d§6§3§3§7"
-  'donate':
+  'clan':
     holo:
       hide:
         canHide: false
@@ -115,6 +120,7 @@ types:
     material: END_STONE
     radius: 30
     custom_block: true
+    useCommand: true
     canExplode: true
     endurance: 3
     worlds:

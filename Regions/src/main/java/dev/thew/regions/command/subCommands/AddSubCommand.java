@@ -24,6 +24,14 @@ public class AddSubCommand extends SubCommand {
             return;
         }
 
+        RegionHandler regionsService = HandlerService.getHandler(RegionService.class);
+        Region region = regionsService.getRegion(player.getLocation());
+
+        if (region == null){
+            Regions.sendError(player, Message.NOT_YOUR_REGION);
+            return;
+        }
+
         String nickname = args[0];
 
         if (nickname.equalsIgnoreCase(player.getName())){
@@ -38,14 +46,7 @@ public class AddSubCommand extends SubCommand {
             return;
         }
 
-        RegionHandler regionsService = HandlerService.getHandler(RegionService.class);
 
-        Region region = regionsService.getRegion(player.getLocation());
-
-        if (region == null){
-            Regions.sendError(player, Message.NOT_YOUR_REGION);
-            return;
-        }
 
         if (!region.isOwner(player.getName())){
             Regions.sendError(player, Message.NOT_YOUR_REGION);
