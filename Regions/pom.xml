@@ -24,7 +24,7 @@
         <repository>
             <id>github</id>
             <name>GitHub QwThew Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/QwThew/RegionsX</url>
+            <url>https://maven.pkg.github.com/qwthew/regionsx</url>
         </repository>
     </distributionManagement>
 
