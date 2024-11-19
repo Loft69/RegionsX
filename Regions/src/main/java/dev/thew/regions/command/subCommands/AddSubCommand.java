@@ -32,6 +32,8 @@ public class AddSubCommand extends SubCommand {
             return;
         }
 
+        if (!region.getRegionType().useCommand()) return;
+
         String nickname = args[0];
 
         if (nickname.equalsIgnoreCase(player.getName())){
