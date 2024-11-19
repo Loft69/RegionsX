@@ -1,6 +1,6 @@
 name: Regions
-version: '1.16'
-api-version: '1.16'
+version: '1.0'
+api-version: '1.20'
 main: dev.thew.regions.Regions
 load: POSTWORLD
 depend:

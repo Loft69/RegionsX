@@ -1,7 +1,7 @@
 name: RegionsPotion
 version: '${project.version}'
 main: dev.thew.potionregions.PotionRegions
-api-version: '1.16'
+api-version: '1.20'
 depend:
   - Regions
 authors:
