@@ -12,7 +12,6 @@
         <module>Regions</module>
         <module>RegionsTNT</module>
         <module>RegionsPotion</module>
-        <module>RegionsClan</module>
     </modules>
 
     <properties>
