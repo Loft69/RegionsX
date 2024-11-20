@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>RegionsTNT</artifactId>
+    <artifactId>regionstnt</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
     <name>RegionsTNT</name>
 
     <parent>
         <groupId>dev.thew</groupId>
-        <artifactId>RegionsX</artifactId>
-        <version>1.0</version>
+        <artifactId>regions-core</artifactId>
+        <version>1.1.0</version>
     </parent>
 
     <properties>
@@ -41,33 +41,6 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
-<!--                        <configuration>-->
-<!--                            <artifactSet>-->
-<!--                                <includes>-->
-<!--                                    <include>commons-io:commons-io</include>-->
-<!--                                </includes>-->
-<!--                            </artifactSet>-->
-<!--                            <filters>-->
-<!--                                <filter>-->
-<!--                                    <artifact>*:*</artifact>-->
-<!--                                    <excludes>-->
-<!--                                        <exclude>*.yml</exclude>-->
-<!--                                        <exclude>META-INF/*.SF</exclude>-->
-<!--                                        <exclude>META-INF/*.MF</exclude>-->
-<!--                                        <exclude>META-INF/*.DSA</exclude>-->
-<!--                                        <exclude>META-INF/*.RSA</exclude>-->
-<!--                                        <exclude>META-INF/**</exclude>-->
-<!--                                        <exclude>module-info.class</exclude>-->
-<!--                                    </excludes>-->
-<!--                                </filter>-->
-<!--                            </filters>-->
-<!--                            <relocations>-->
-<!--                                <relocation>-->
-<!--                                    <pattern>org.apache.commons.io</pattern>-->
-<!--                                    <shadedPattern>${shaded-dependencies}.org.apache.commons.io</shadedPattern>-->
-<!--                                </relocation>-->
-<!--                            </relocations>-->
-<!--                        </configuration>-->
                     </execution>
                 </executions>
             </plugin>
@@ -102,7 +75,7 @@
         </dependency>
         <dependency>
             <groupId>dev.thew</groupId>
-            <artifactId>Regions</artifactId>
+            <artifactId>regions</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
