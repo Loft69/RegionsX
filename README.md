@@ -15,8 +15,8 @@
 ```java
 Location location = getLocation();
 
-RegionHandler regionsService = RegionsAPI.getHandler(RegionService.class);
-Region region = regionsService.getRegion(location);
+RegionHandler regionHandler = RegionsAPI.getHandler(RegionService.class);
+Region region = regionHandler.getRegion(location);
 ```
 
 ### OR
@@ -24,8 +24,8 @@ Region region = regionsService.getRegion(location);
 ```java
 String regionId = "world;x;y;z"; // example id
 
-RegionHandler regionsService = RegionsAPI.getHandler(RegionService.class);
-Region region = regionsService.getRegionById(regionId); 
+RegionHandler regionHandler = RegionsAPI.getHandler(RegionService.class);
+Region region = regionHandler.getRegionById(regionId); 
 ```
 
 # RegionEvents
