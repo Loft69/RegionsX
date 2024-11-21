@@ -1,32 +1,44 @@
 package dev.thew.regions.handler;
 
 import dev.thew.regions.Regions;
-import dev.thew.regions.databases.DatabaseManager;
-import dev.thew.regions.handler.service.*;
-import org.bukkit.configuration.file.FileConfiguration;
+import dev.thew.regions.handler.database.DatabaseHandler;
+import dev.thew.regions.handler.database.DatabaseService;
+import dev.thew.regions.handler.bypass.BypassService;
+import dev.thew.regions.handler.command.CommandService;
+import dev.thew.regions.handler.hologram.HologramService;
+import dev.thew.regions.handler.menu.MenuHandler;
+import dev.thew.regions.handler.menu.MenuService;
+import dev.thew.regions.handler.observer.BlocksObserverService;
+import dev.thew.regions.handler.protect.ProtectionService;
+import dev.thew.regions.handler.region.RegionHandler;
+import dev.thew.regions.handler.region.RegionService;
+import dev.thew.regions.handler.regionType.RegionTypeHandler;
+import dev.thew.regions.handler.regionType.RegionTypeService;
+import dev.thew.regions.handler.settings.SettingsHandler;
+import dev.thew.regions.handler.settings.SettingsService;
+import dev.thew.regions.handler.visit.VisitorsService;
 
-import java.io.File;
 import java.util.HashMap;
 
 public class HandlerService {
 
     private static final HashMap<String, Handler> handlers = new HashMap<>();
 
-    public void load() {
-        if (!new File(Regions.getInstance().getDataFolder(), "config.yml").exists()) Regions.getInstance().saveDefaultConfig();
-        FileConfiguration config = Regions.getInstance().getConfig();
+    public void load(Regions instance) {
+        SettingsHandler settingsHandler = new SettingsService(instance);
+        addHandler(settingsHandler);
 
         RegionTypeHandler regionTypeHandler = new RegionTypeService();
         addHandler(regionTypeHandler);
 
-        RegionHandler regionHandler = new RegionService(regionTypeHandler);
+        DatabaseHandler databaseHandler = new DatabaseService(settingsHandler, regionTypeHandler);
+        addHandler(databaseHandler);
+
+        RegionHandler regionHandler = new RegionService(databaseHandler);
         addHandler(regionHandler);
 
         Handler hologramHandler = new HologramService();
         addHandler(hologramHandler);
-
-        String url = config.getString("database-url");
-        DatabaseManager.load(regionHandler, url);
 
         MenuHandler menuHandler = new MenuService();
         addHandler(menuHandler);
@@ -43,15 +55,17 @@ public class HandlerService {
         Handler visitorsHandler = new VisitorsService(regionHandler);
         addHandler(visitorsHandler);
 
-        loadHandler();
+        Handler commandHandler = new CommandService(instance, regionHandler, regionTypeHandler);
+        addHandler(commandHandler);
+
+        loadHandlers();
     }
 
     public void shutdown() {
         for (Handler handler : handlers.values()) handler.shutdown();
-        DatabaseManager.shutDown();
     }
 
-    private void loadHandler() {
+    private void loadHandlers() {
         for (Handler handler : handlers.values()) handler.load();
     }
 

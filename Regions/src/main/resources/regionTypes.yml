@@ -112,7 +112,7 @@ types:
       titleItem: true
       appendY: 3.5
       lines:
-        - "&fТаинственный приват"
+        - "&fКлановый приват"
         - '{region.size.render}' #красивый рендер радиуса исходя из цвета привата
         - '' #невидимая строчка
         - '&fВладелец &e{region.owner}' #ник владельца региона
@@ -120,7 +120,7 @@ types:
     material: END_STONE
     radius: 30
     custom_block: true
-    useCommand: true
+    useCommand: false
     canExplode: true
     endurance: 3
     worlds:

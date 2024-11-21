@@ -2,7 +2,7 @@ package dev.thew.regions.menu;
 
 import lombok.Getter;
 import dev.thew.regions.model.Region;
-import dev.thew.regions.handler.service.VisualizationService;
+import dev.thew.regions.handler.visual.VisualizationService;
 import dev.thew.regions.utils.InventoryUtils;
 import dev.thew.regions.utils.TextUtils;
 import org.bukkit.Material;
