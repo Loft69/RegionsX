@@ -1,11 +1,21 @@
 # How to use API
 
+### Maven dependency
+
+```xml
+<dependency>
+  <groupId>dev.thew</groupId>
+  <artifactId>regions</artifactId>
+  <version>LATEST</version>
+</dependency>
+```
+
 ### Example get Region
 
 ```java
 Location location = getLocation();
 
-RegionHandler regionsService = HandlerService.getHandler(RegionService.class);
+RegionHandler regionsService = RegionsAPI.getHandler(RegionService.class);
 Region region = regionsService.getRegion(location);
 ```
 
@@ -14,7 +24,7 @@ Region region = regionsService.getRegion(location);
 ```java
 String regionId = "world;x;y;z"; // example id
 
-RegionHandler regionsService = HandlerService.getHandler(RegionService.class);
+RegionHandler regionsService = RegionsAPI.getHandler(RegionService.class);
 Region region = regionsService.getRegionById(regionId); 
 ```
 
