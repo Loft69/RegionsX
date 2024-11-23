@@ -53,7 +53,7 @@ public class RegionTypeService implements RegionTypeHandler {
             double appendY = typeSection.getDouble("holo.appendY");
             HologramModel hologramModel = new HologramModel(appendY, enabledTitleItem, holoLines);
             boolean canExplode = typeSection.getBoolean("canExplode");
-            boolean useCommand = typeSection.getBoolean("useCommand");
+            boolean isClanType = typeSection.getBoolean("isClanType");
 
             RegionType regionType = new RegionType(typeId,
                     material,
@@ -66,7 +66,7 @@ public class RegionTypeService implements RegionTypeHandler {
                     enabledHide,
                     whoHide,
                     canExplode,
-                    useCommand);
+                    isClanType);
             regionTypes.add(regionType);
         }
     }

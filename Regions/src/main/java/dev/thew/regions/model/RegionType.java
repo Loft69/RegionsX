@@ -11,7 +11,7 @@ import java.util.List;
 
 public record RegionType(String id, Material material, int radius, boolean isCustomBlock, int endurance,
                          String hexColor, List<String> worlds, HologramModel hologramModel, boolean canHide,
-                         WhoHide whoHide, boolean canExplode, boolean useCommand) {
+                         WhoHide whoHide, boolean canExplode, boolean isClanType) {
     public String render() {
         return String.format("%s₪ §f%s блоков", hexColor, radius);
     }

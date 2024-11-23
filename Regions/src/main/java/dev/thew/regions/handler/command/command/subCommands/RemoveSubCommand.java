@@ -31,7 +31,7 @@ public final class RemoveSubCommand extends BaseCommand {
             return;
         }
 
-        if (!region.getRegionType().useCommand()) return;
+        if (region.getRegionType().isClanType()) return;
         String nickname = args[0];
 
         if (nickname.equalsIgnoreCase(player.getName())){
