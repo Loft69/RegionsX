@@ -4,7 +4,7 @@
 
     <groupId>dev.thew</groupId>
     <artifactId>regions-core</artifactId>
-    <version>1.1.51</version>
+    <version>1.1.52</version>
     <packaging>pom</packaging>
     <name>RegionsX</name>
 
@@ -15,7 +15,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <childversion>1.2.21</childversion>
+        <childversion>1.2.22</childversion>
     </properties>
 
     <distributionManagement>

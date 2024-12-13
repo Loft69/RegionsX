@@ -32,7 +32,7 @@ public class HandlerService {
         addHandler(regionTypeHandler);
 
         DatabaseHandler databaseHandler = new DatabaseService(settingsHandler, regionTypeHandler);
-        addHandler(databaseHandler);
+        databaseHandler.load();
 
         RegionHandler regionHandler = new RegionService(databaseHandler);
         addHandler(regionHandler);

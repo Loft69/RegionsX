@@ -27,7 +27,7 @@ public final class RegionDatabase extends Database {
 
     @Override
     public void checkTables() {
-        push("CREATE TABLE IF NOT EXISTS regions(id varchar(256), data text, UNIQUE(id));", true);
+        push("CREATE TABLE IF NOT EXISTS regions(id VARCHAR(256), data TEXT, UNIQUE(id));", true);
     }
 
     public void save(Region region) {
