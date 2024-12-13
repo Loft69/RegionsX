@@ -1,8 +1,5 @@
 package dev.thew.regions.handler.observer;
 
-import com.google.common.collect.Lists;
-import dev.thew.regions.craft.Explosion;
-import dev.thew.regions.craft.ExplosionDamageCalculator;
 import dev.thew.regions.event.RegionExplodeEvent;
 import dev.thew.regions.event.RegionRemovePrimeEvent;
 import dev.thew.regions.model.BreakCause;
@@ -16,29 +13,20 @@ import dev.thew.regions.handler.menu.MenuHandler;
 import dev.thew.regions.handler.region.RegionHandler;
 import dev.thew.regions.handler.regionType.RegionTypeHandler;
 import dev.thew.regions.handler.Handler;
-import net.minecraft.server.v1_16_R3.WorldServer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.TNTPrimed;
-import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @RequiredArgsConstructor
 public class BlocksObserverService implements Listener, Handler {
@@ -163,53 +151,32 @@ public class BlocksObserverService implements Listener, Handler {
     private void removeRegionFromExplosion(List<Block> blocks) {
         List<Region> regions = regionsExist(blocks);
 
-        for (Region region : regions)
-            blocks.removeIf(block -> block.equals(region.getBaseLocation().getBlock()));
+        regions.forEach(this::handleExplode);
     }
 
-    @EventHandler
-    public void onPrimeExplode(ExplosionPrimeEvent event){
-        Entity entity = event.getEntity();
-        Location location = entity.getLocation().clone();
+    private void handleExplode(Region region) {
 
-        if (entity instanceof TNTPrimed tntPrimed)
-            location.setY(location.getY() + tntPrimed.getHeight() * 0.0625D);
-        else if (entity instanceof Wither wither)
-            location.setY(location.getY() + wither.getHeight());
+        RegionType regionType = region.getRegionType();
+        if (!regionType.canExplode()) return;
 
-        float radius = event.getRadius();
-        handleExplode(location, radius, entity);
-    }
+        if (region.getEndurance() <= 1){
 
-    private void handleExplode(Location location, float radius, Entity entity) {
+            RegionRemovePrimeEvent regionRemovePrimeEvent = new RegionRemovePrimeEvent(region, BreakCause.EXPLOSION, null);
+            Regions.callEvent(regionRemovePrimeEvent);
+            if (regionRemovePrimeEvent.isCancelled()) return;
 
-        Set<Region> set = new HashSet<>(getRegionFromExplosion(location, radius - 2));
+            Block block = region.getBaseLocation().getBlock();
+            block.breakNaturally();
 
-        List<Region> regions = Lists.newArrayList(set);
+            regionsService.deleteRegion(region, BreakCause.EXPLOSION);
+        } else {
 
-        for (Region region : regions){
+            RegionExplodeEvent regionExplodeEvent = new RegionExplodeEvent(region);
+            Regions.callEvent(regionExplodeEvent);
+            if (regionExplodeEvent.isCancelled()) return;
 
-            RegionType regionType = region.getRegionType();
-            if (!regionType.canExplode()) continue;
-
-            if (region.getEndurance() <= 1){
-
-                RegionRemovePrimeEvent regionRemovePrimeEvent = new RegionRemovePrimeEvent(region, BreakCause.EXPLOSION, entity);
-                Regions.callEvent(regionRemovePrimeEvent);
-                if (regionRemovePrimeEvent.isCancelled()) return;
-
-                Block block = region.getBaseLocation().getBlock();
-                block.breakNaturally();
-
-                regionsService.deleteRegion(region, BreakCause.EXPLOSION);
-            } else {
-
-                RegionExplodeEvent regionExplodeEvent = new RegionExplodeEvent(region, entity);
-                Regions.callEvent(regionExplodeEvent);
-                if (regionExplodeEvent.isCancelled()) return;
-
-                regionsService.damageRegion(region, 1, BreakCause.EXPLOSION);
-            }
+            regionsService.damageRegion(region, 1, BreakCause.EXPLOSION);
+        }
 
 //            Player owner = Bukkit.getPlayerExact(region.getOwner());
 //
@@ -226,39 +193,8 @@ public class BlocksObserverService implements Listener, Handler {
 //                Player member = Bukkit.getPlayerExact(stringMember);
 //                if (member != null) member.sendTitle(alarm, coords, 15, 40, 15);
 //            }
-        }
+
     }
-
-    private Set<Region> getRegionFromExplosion(Location location, float size) {
-
-        List<Block> blocks = getBlocks(location, size);
-        Set<Region> regions = new HashSet<>();
-
-        for (Block block : blocks) {
-            Region region = getRegionFromBlock(block);
-            if (region == null) continue;
-
-            regions.add(region);
-        }
-
-        return regions;
-    }
-
-    private List<Block> getBlocks(Location location, float size) {
-        double x = location.getX();
-        double y = location.getY();
-        double z = location.getZ();
-
-        World world = location.getWorld();
-        assert world != null;
-        WorldServer worldServer = ((CraftWorld) world).getHandle();
-
-        ExplosionDamageCalculator explosionDamageCalculator = new ExplosionDamageCalculator();
-        Explosion explosion = new Explosion(explosionDamageCalculator, worldServer, world, x, y, z, size, true);
-
-        return explosion.explode();
-    }
-
     private Region getRegionFromBlock(Block block) {
         if (regionTypesService.isRegionBlock(block)) return null;
 
@@ -266,6 +202,4 @@ public class BlocksObserverService implements Listener, Handler {
 
         return regionsService.getRegionByBaseLocation(location);
     }
-
-
 }

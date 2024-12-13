@@ -89,6 +89,6 @@ public class VisualizationService {
     }
 
     private static void spawnParticle(Player player, double x, double y, double z) {
-        player.spawnParticle(Particle.BARRIER, x + 0.5, y + 0.5, z + 0.5, 1);
+        player.spawnParticle(Particle.BLOCK_MARKER, x + 0.5, y + 0.5, z + 0.5, 1);
     }
 }

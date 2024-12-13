@@ -17,7 +17,7 @@ public class RegionRemovePrimeEvent extends Event implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
     private final Region region;
     private final BreakCause cause;
-    private final Entity entity;
+    private final Entity source;
     private boolean isCancelled = false;
 
     @Override
