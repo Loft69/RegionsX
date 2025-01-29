@@ -62,48 +62,6 @@ types:
     worlds:
       - world
     color: "§x§8§d§6§3§3§7"
-  25:
-    holo:
-      hide:
-        canHide: false
-        canUse: OWNER
-      titleItem: true
-      appendY: 3.5
-      lines:
-        - '&fБольшой приват'
-        - '{region.size.render}' #красивый рендер радиуса исходя из цвета привата
-        - '' #невидимая строчка
-        - '&fВладелец &e{region.owner}' #ник владельца региона
-        - '&fПрочность &c{current.endurance}&7/&e{max.endurance}' #текущая и максимальная прочность привата
-    material: ANCIENT_DEBRIS
-    radius: 25
-    canExplode: true
-    endurance: 2
-    isClanType: false
-    worlds:
-      - world
-    color: "§x§8§d§6§3§3§7"
-  30:
-    holo:
-      hide:
-        canHide: false
-        canUse: OWNER
-      titleItem: true
-      appendY: 3.5
-      lines:
-        - "&fОгромный приват"
-        - '{region.size.render}' #красивый рендер радиуса исходя из цвета привата
-        - '' #невидимая строчка
-        - '&fВладелец &e{region.owner}' #ник владельца региона
-        - '&fПрочность &c{current.endurance}&7/&e{max.endurance}' #текущая и максимальная прочность привата
-    material: NETHERITE_BLOCK
-    radius: 30
-    canExplode: true
-    isClanType: false
-    endurance: 3
-    worlds:
-      - world
-    color: "§x§8§d§6§3§3§7"
   'clan':
     holo:
       hide:
