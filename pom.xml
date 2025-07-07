@@ -4,7 +4,7 @@
 
     <groupId>dev.thew</groupId>
     <artifactId>regions-core</artifactId>
-    <version>1.1.6</version>
+    <version>1.1.7</version>
     <packaging>pom</packaging>
     <name>RegionsX</name>
 
