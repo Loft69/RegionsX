@@ -25,35 +25,35 @@ jobs:
           server-id: github
           settings-path: ${{ github.workspace }}
 
-      - name: Get current version
+      - name: Get version
         id: version
         run: |
-          CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          echo "CURRENT_VERSION=${CURRENT_VERSION%-SNAPSHOT}" >> $GITHUB_ENV
-          echo "Detected version: $CURRENT_VERSION"
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-SNAPSHOT//')
+          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Build with Maven
-        run: mvn -B clean package
-
-      - name: Publish to GitHub Packages
-        run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      - name: Build and publish
+        run: mvn -B clean deploy
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Create Git tag
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git tag -a "v${{ env.CURRENT_VERSION }}" -m "Release ${{ env.CURRENT_VERSION }}"
-          git push origin "v${{ env.CURRENT_VERSION }}"
-
-      - name: Create GitHub Release
+      - name: Create release
+        id: create-release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          tag_name: "v${{ env.CURRENT_VERSION }}"
-          release_name: "Release v${{ env.CURRENT_VERSION }}"
-          body: "Автоматически созданный релиз"
+          tag_name: "v${{ env.RELEASE_VERSION }}"
+          release_name: "Release v${{ env.RELEASE_VERSION }}"
+          body: "Automatic release"
           draft: false
           prerelease: false
+
+      - name: Upload JAR to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: target/regions-${{ env.RELEASE_VERSION }}.jar
+          asset_name: regions-${{ env.RELEASE_VERSION }}.jar
+          asset_content_type: application/java-archive
