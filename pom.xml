@@ -1,45 +1,73 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+    <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+        <modelVersion>4.0.0</modelVersion>
 
-    <groupId>dev.thew</groupId>
-    <artifactId>regions-core</artifactId>
-    <version>1.1.7</version>
-    <packaging>pom</packaging>
-    <name>RegionsX</name>
+        <groupId>dev.thew</groupId>
+        <artifactId>regions-core</artifactId>
+        <version>${revision}</version>
+        <packaging>pom</packaging>
+        <name>RegionsX</name>
 
-    <modules>
-        <module>Regions</module>
-        <module>RegionsPotion</module>
-    </modules>
+        <modules>
+            <module>Regions</module>
+        </modules>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <childversion>1.2.3</childversion>
-    </properties>
+        <properties>
+            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+            <revision>1.5</revision>
+            <changelist>-SNAPSHOT</changelist>
+        </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub QwThew Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/Loft69/RegionsX</url>
-        </repository>
-    </distributionManagement>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>2.16.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>buildnumber-maven-plugin</artifactId>
+                    <version>3.2.0</version>
+                    <executions>
+                        <execution>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>create</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <doCheck>false</doCheck>
+                        <doUpdate>false</doUpdate>
+                        <revisionOnScmFailure>UNKNOWN</revisionOnScmFailure>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.spigotmc</groupId>
-                <artifactId>spigot-api</artifactId>
-                <version>1.20.4-R0.1-SNAPSHOT</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.18.34</version>
-                <scope>provided</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-</project>
+        <distributionManagement>
+            <repository>
+                <id>github</id>
+                <name>GitHub QwThew Apache Maven Packages</name>
+                <url>https://maven.pkg.github.com/Loft69/RegionsX</url>
+            </repository>
+        </distributionManagement>
+
+        <dependencyManagement>
+            <dependencies>
+                <dependency>
+                    <groupId>org.spigotmc</groupId>
+                    <artifactId>spigot-api</artifactId>
+                    <version>1.20.4-R0.1-SNAPSHOT</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.projectlombok</groupId>
+                    <artifactId>lombok</artifactId>
+                    <version>1.18.34</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </dependencyManagement>
+    </project>
