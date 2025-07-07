@@ -8,8 +8,14 @@ import lombok.NonNull;
 import lombok.Setter;
 import me.filoghost.holographicdisplays.api.hologram.Hologram;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.util.BoundingBox;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Data
@@ -170,5 +176,26 @@ public class Region {
         hologramModel.reload(this);
     }
 
+    public HashMap<EntityType, List<Entity>> getEntityGroupedByType() {
+        List<Entity> entities = getEntityInRegion();
+        HashMap<EntityType, List<Entity>> mobsGroupedByType = new HashMap<>();
+
+        entities.forEach(entity -> mobsGroupedByType.computeIfAbsent(entity.getType(), k -> new ArrayList<>()).add(entity));
+
+        return mobsGroupedByType;
+    }
+
+    public List<Entity> getEntityInRegion() {
+        World world = baseLocation.getWorld();
+        assert world != null;
+
+        Location minLocation = getMinLocation();
+        Location maxLocation = getMaxLocation();
+        BoundingBox regionBox = new BoundingBox(minLocation.getX(), minLocation.getY(), minLocation.getZ(), maxLocation.getX(), maxLocation.getY(), maxLocation.getZ());
+
+        return world.getNearbyEntities(regionBox).stream()
+                .filter(entity -> isInside(entity.getLocation()))
+                .toList();
+    }
 
 }
