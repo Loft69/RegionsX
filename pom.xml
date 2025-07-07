@@ -41,10 +41,13 @@
                         <doCheck>false</doCheck>
                         <doUpdate>false</doUpdate>
                         <revisionOnScmFailure>UNKNOWN</revisionOnScmFailure>
+                        <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
                     </configuration>
                 </plugin>
             </plugins>
         </build>
+
+
 
         <distributionManagement>
             <repository>
