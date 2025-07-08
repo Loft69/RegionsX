@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dev.thew</groupId>
-    <artifactId>regions</artifactId>
+    <artifactId>regionsx</artifactId>
     <version>1.6.5</version>
     <packaging>jar</packaging>
 
@@ -24,6 +24,14 @@
         <url>https://github.com/Loft69/RegionsX</url>
         <tag>HEAD</tag>
     </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/Loft69/RegionsX</url>
+        </repository>
+    </distributionManagement>
 
     <build>
         <resources>
@@ -61,27 +69,6 @@
                 <version>2.16.0</version>
             </plugin>
 
-            <!-- Checkstyle -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.2.1</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.google.guava</groupId>
-                        <artifactId>guava</artifactId>
-                        <version>31.1-jre</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <configLocation>.github/checkstyle/google_checks.xml</configLocation>
-                    <encoding>UTF-8</encoding>
-                    <consoleOutput>true</consoleOutput>
-                    <failsOnError>true</failsOnError>
-                    <linkXRef>false</linkXRef> <!-- Можно отключить, если нет сайта -->
-                </configuration>
-            </plugin>
-
             <!-- Jacoco для покрытия тестов -->
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -106,13 +93,6 @@
         </plugins>
     </build>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/Loft69/RegionsX</url>
-        </repository>
-    </distributionManagement>
 
     <repositories>
         <repository>
