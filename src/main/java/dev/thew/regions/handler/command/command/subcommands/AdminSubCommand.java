@@ -1,4 +1,4 @@
-package dev.thew.regions.handler.command.command.subCommands;
+package dev.thew.regions.handler.command.command.subcommands;
 
 import dev.thew.regions.handler.command.command.BaseCommand;
 import dev.thew.regions.handler.regionType.RegionTypeHandler;
