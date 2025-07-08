@@ -1,0 +1,85 @@
+#placehodler for holo lines: {region.x} {region.y} {region.z} {region.radius}
+# {region.id} {region.size.render} {region.owner} {current.endurance} {max.endurance}
+
+types:
+  5:
+    holo:
+      hide:
+        canHide: false # скрытие голограммы
+        canUse: OWNER # кто может использовать, OWNER/MEMBERS
+      titleItem: true #айтем над голограммой
+      appendY: 3.5 # высота для голограммы (от центра привата)
+      lines:
+        - "&fМини приват"
+        - '{region.size.render}' #красивый рендер радиуса исходя из цвета привата
+        - '' #невидимая строчка
+        - '&fВладелец &e{region.owner}' #ник владельца региона
+    material: GOLD_BLOCK
+    endurance: 0
+    canExplode: true
+    radius: 5
+    isClanType: false
+    worlds:
+      - world
+    color: "§x§f§f§c§1§0§7"
+  15:
+    holo:
+      hide:
+        canHide: false
+        canUse: OWNER
+      titleItem: true
+      appendY: 3.5
+      lines:
+        - "&fОбычный приват"
+        - '{region.size.render}' #красивый рендер радиуса исходя из цвета привата
+        - '' #невидимая строчка
+        - '&fВладелец &e{region.owner}' #ник владельца региона
+    material: EMERALD_BLOCK
+    canExplode: true
+    radius: 15
+    isClanType: false
+    endurance: 0
+    worlds:
+      - world
+    color: "§x§0§0§f§f§d§9"
+  20:
+    holo:
+      hide:
+        canHide: false
+        canUse: OWNER
+      titleItem: true
+      appendY: 3.5
+      lines:
+        - "&fСредний приват"
+        - '{region.size.render}' #красивый рендер радиуса исходя из цвета привата
+        - '' #невидимая строчка
+        - '&fВладелец &e{region.owner}' #ник владельца региона
+    material: EMERALD_ORE
+    radius: 20
+    canExplode: true
+    isClanType: false
+    endurance: 0
+    worlds:
+      - world
+    color: "§x§8§d§6§3§3§7"
+  'clan':
+    holo:
+      hide:
+        canHide: false
+        canUse: OWNER
+      titleItem: true
+      appendY: 3.5
+      lines:
+        - "&fКлановый приват"
+        - '{region.size.render}' #красивый рендер радиуса исходя из цвета привата
+        - '' #невидимая строчка
+        - '&fВладелец клана &e{region.owner}' #ник владельца региона
+    material: END_STONE
+    radius: 30
+    custom_block: true
+    isClanType: true
+    canExplode: false
+    endurance: 0
+    worlds:
+      - world
+    color: "§x§8§d§6§3§3§7"
