@@ -8,7 +8,6 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 
 public class FileUtils {
-
     private FileUtils() {
         throw new IllegalStateException("Utility class");
     }

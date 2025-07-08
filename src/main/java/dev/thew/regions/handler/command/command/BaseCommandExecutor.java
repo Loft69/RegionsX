@@ -3,22 +3,24 @@ package dev.thew.regions.handler.command.command;
 import dev.thew.regions.handler.regionType.RegionTypeHandler;
 import dev.thew.regions.model.Region;
 import dev.thew.regions.utils.Message;
+import lombok.AccessLevel;
 import lombok.NonNull;
 import dev.thew.regions.Regions;
-import dev.thew.regions.handler.command.command.subCommands.AddSubCommand;
-import dev.thew.regions.handler.command.command.subCommands.AdminSubCommand;
-import dev.thew.regions.handler.command.command.subCommands.ListCommand;
-import dev.thew.regions.handler.command.command.subCommands.RemoveSubCommand;
+import dev.thew.regions.handler.command.command.subcommands.AddSubCommand;
+import dev.thew.regions.handler.command.command.subcommands.AdminSubCommand;
+import dev.thew.regions.handler.command.command.subcommands.ListCommand;
+import dev.thew.regions.handler.command.command.subcommands.RemoveSubCommand;
 import dev.thew.regions.handler.region.RegionHandler;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BaseCommandExecutor implements TabExecutor {
-
-    private final Map<String, BaseCommand> subCommands = new HashMap<>();
-    private final RegionHandler regionHandler;
+    Map<String, BaseCommand> subCommands = new HashMap<>();
+    RegionHandler regionHandler;
 
     public BaseCommandExecutor(RegionHandler regionHandler, RegionTypeHandler regionTypeHandler) {
         this.regionHandler = regionHandler;

@@ -6,9 +6,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dev.thew.regions.handler.regionType.RegionTypeHandler;
 import dev.thew.regions.model.RegionType;
+import lombok.AccessLevel;
 import lombok.SneakyThrows;
 import dev.thew.regions.handler.database.Database;
 import dev.thew.regions.model.Region;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -16,9 +18,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public final class RegionDatabase extends Database {
-
-    private final RegionTypeHandler regionTypeHandler;
+    RegionTypeHandler regionTypeHandler;
 
     public RegionDatabase(RegionTypeHandler regionTypeHandler, String url) {
         super(url);

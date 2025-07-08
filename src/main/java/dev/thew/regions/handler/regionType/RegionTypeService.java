@@ -5,6 +5,8 @@ import dev.thew.regions.model.HologramModel;
 import dev.thew.regions.model.RegionType;
 import dev.thew.regions.model.WhoHide;
 import dev.thew.regions.utils.FileUtils;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -18,10 +20,10 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RegionTypeService implements RegionTypeHandler {
-
-    private NamespacedKey isCustomFlag = null;
-    private final List<RegionType> regionTypes = new ArrayList<>();
+    NamespacedKey isCustomFlag = null;
+    final List<RegionType> regionTypes = new ArrayList<>();
 
     @Override
     public void load() {

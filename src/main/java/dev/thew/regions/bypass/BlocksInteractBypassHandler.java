@@ -1,7 +1,9 @@
-    package dev.thew.regions.bypass;
+package dev.thew.regions.bypass;
 
 import dev.thew.regions.model.BypassHandler;
 import dev.thew.regions.model.BypassResult;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.Event;
@@ -10,9 +12,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BlocksInteractBypassHandler implements BypassHandler {
-
-    private final List<Material> blockedMaterial = new ArrayList<>();
+    List<Material> blockedMaterial = new ArrayList<>();
 
     public BlocksInteractBypassHandler() {
         blockedMaterial.add(Material.CHEST);

@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 public record WorldPart(World world, int x, int z) {
-
     public static WorldPart of(Location location) {
 
         World world = location.getWorld();

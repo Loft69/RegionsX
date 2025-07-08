@@ -1,5 +1,6 @@
 package dev.thew.regions.handler.visit;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import dev.thew.regions.Regions;
 import dev.thew.regions.event.RegionJoinEvent;
@@ -7,6 +8,7 @@ import dev.thew.regions.event.RegionQuitEvent;
 import dev.thew.regions.model.Region;
 import dev.thew.regions.handler.region.RegionHandler;
 import dev.thew.regions.handler.Handler;
+import lombok.experimental.FieldDefaults;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -21,11 +23,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.HashMap;
 
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class VisitorsService implements Listener, Handler {
-
-    private final RegionHandler regionsService;
-
-    private final HashMap<Player, Region> previousRegions = new HashMap<>();
+    RegionHandler regionsService;
+    HashMap<Player, Region> previousRegions = new HashMap<>();
 
     @Override
     public void load() {

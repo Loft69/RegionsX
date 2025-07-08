@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 public class TextUtils {
-
     private TextUtils() {
         throw new IllegalStateException("Utility class");
     }

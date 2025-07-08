@@ -1,7 +1,5 @@
 package dev.thew.regions.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NonNull;
 import dev.thew.regions.Regions;
 import me.filoghost.holographicdisplays.api.HolographicDisplaysAPI;
@@ -11,14 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-@AllArgsConstructor
-@Getter
-public class HologramModel {
-
-    private double appendY;
-    private boolean enableTitleItem;
-    private List<String> list;
-
+public record HologramModel(double appendY, boolean enableTitleItem, List<String> list) {
     public void execute(@NonNull Region region) {
         Location hologramLocation = region.getBaseLocation().clone().add(0.5, appendY, 0.5);
 
@@ -46,7 +37,7 @@ public class HologramModel {
         }
 
         for (String line : list) {
-            if (line.equalsIgnoreCase("none") || line.equalsIgnoreCase("null") || line.isEmpty()){
+            if (line.equalsIgnoreCase("none") || line.equalsIgnoreCase("null") || line.isEmpty()) {
                 hologram.getLines().appendText(null);
                 continue;
             }

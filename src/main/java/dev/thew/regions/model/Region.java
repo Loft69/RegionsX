@@ -2,10 +2,8 @@ package dev.thew.regions.model;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import me.filoghost.holographicdisplays.api.hologram.Hologram;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -20,19 +18,19 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Region {
+    final String id;
 
-    private final String id;
-
-    private final Location baseLocation;
-    private final RegionType regionType;
+    final Location baseLocation;
+    final RegionType regionType;
     @Setter
-    private String owner;
+    String owner;
     @Setter
-    private Hologram hologram;
-    private int endurance;
-    private final List<String> members;
-    private boolean holoHidden;
+    Hologram hologram;
+    int endurance;
+    final List<String> members;
+    boolean holoHidden;
 
     public JsonObject toJson() {
         JsonObject regionJSON = new JsonObject();

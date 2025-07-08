@@ -5,13 +5,15 @@ import dev.thew.regions.handler.command.command.BaseCommandExecutor;
 import dev.thew.regions.handler.Handler;
 import dev.thew.regions.handler.region.RegionHandler;
 import dev.thew.regions.handler.regionType.RegionTypeHandler;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.command.PluginCommand;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public final class CommandService implements Handler {
-
-    private final Regions instance;
-    private final RegionHandler regionHandler;
-    private final RegionTypeHandler regionTypeHandler;
+    Regions instance;
+    RegionHandler regionHandler;
+    RegionTypeHandler regionTypeHandler;
 
     public CommandService(final Regions instance, final RegionHandler regionHandler, final RegionTypeHandler regionTypeHandler) {
         this.instance = instance;

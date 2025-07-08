@@ -17,12 +17,14 @@ import dev.thew.regions.handler.regionType.RegionTypeService;
 import dev.thew.regions.handler.settings.SettingsHandler;
 import dev.thew.regions.handler.settings.SettingsService;
 import dev.thew.regions.handler.visit.VisitorsService;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 
 import java.util.HashMap;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class HandlerService {
-
-    private static final HashMap<String, Handler> handlers = new HashMap<>();
+    static HashMap<String, Handler> handlers = new HashMap<>();
 
     public void load(Regions instance) {
         SettingsHandler settingsHandler = new SettingsService(instance);
