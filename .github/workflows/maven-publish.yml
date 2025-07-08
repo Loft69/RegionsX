@@ -1,16 +1,16 @@
-name: Release on Tag
+name: Maven Verify on Dev
 
 on:
   push:
-    tags:
-      - 'v*'
-
-permissions:
-  contents: write
-  packages: write
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
 
 jobs:
-  release:
+  verify:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -21,26 +21,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          server-id: github
-          settings-path: ${{ github.workspace }}
 
-      - name: Build with Maven
-        run: mvn clean package --file pom.xml
-
-      - name: Rename .jar to Regions.jar
-        run: |
-          mkdir -p release
-          mv target/*.jar release/Regions.jar
-
-      - name: Publish to GitHub Packages
-        run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          name: "Release ${{ github.ref_name }}"
-          files: release/Regions.jar
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Maven Verify
+        run: mvn -B verify --file pom.xml
