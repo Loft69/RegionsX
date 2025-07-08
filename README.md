@@ -5,7 +5,7 @@
 ```xml
 <dependency>
   <groupId>dev.thew</groupId>
-  <artifactId>regions</artifactId>
+  <artifactId>regionsx</artifactId>
   <version>LATEST</version>
 </dependency>
 ```
