@@ -74,7 +74,7 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <configLocation>config/checkstyle/google_checks.xml</configLocation>
+                    <configLocation>.github/checkstyle/google_checks.xml</configLocation>
                     <encoding>UTF-8</encoding>
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
