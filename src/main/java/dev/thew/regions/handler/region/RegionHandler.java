@@ -13,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public interface RegionHandler extends Handler {
-
     Region getRegion(@NonNull Location location);
     Region getRegionById(@NonNull String id);
     int countRegions(@NonNull Player player);
@@ -25,5 +24,4 @@ public interface RegionHandler extends Handler {
     void damageRegion(@NonNull Region region, int damage, BreakCause breakCause);
     boolean isAvailable(Player player, @NonNull Location location, RegionType regionType);
     void createRegion(@NonNull Player player, ItemStack itemStack, Location location, RegionType regionType, BlockPlaceEvent event);
-    
 }

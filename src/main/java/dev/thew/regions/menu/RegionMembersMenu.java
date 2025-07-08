@@ -1,9 +1,11 @@
 package dev.thew.regions.menu;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import dev.thew.regions.Regions;
 import dev.thew.regions.model.Region;
 import dev.thew.regions.utils.InventoryUtils;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -13,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RegionMembersMenu extends StaticMenu {
-
-    private final Region region;
+    Region region;
 
     public RegionMembersMenu(Region region) {
         super(27, "Участники региона " + region.getOwner());

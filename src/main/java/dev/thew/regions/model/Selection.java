@@ -1,13 +1,15 @@
 package dev.thew.regions.model;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Location;
 
 @Data
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Selection {
-
-    private final Location min;
-    private final Location max;
+    Location min;
+    Location max;
 
     public Selection(Location location, RegionType regionType) {
 

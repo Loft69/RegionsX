@@ -8,7 +8,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class VisualizationService {
-
     public static void renderCorners(Player player, Region region) {
 
         Location min = region.getMinLocation();

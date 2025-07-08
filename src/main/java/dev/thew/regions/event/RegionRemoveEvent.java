@@ -1,22 +1,24 @@
 package dev.thew.regions.event;
 
 import dev.thew.regions.model.BreakCause;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import dev.thew.regions.model.Region;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 @Getter
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RegionRemoveEvent extends Event implements Cancellable {
-
-    private static final HandlerList HANDLERS = new HandlerList();
-    private final Region region;
-    private final BreakCause cause;
-    private boolean isCancelled = false;
+    static final HandlerList HANDLERS = new HandlerList();
+    final Region region;
+    final BreakCause cause;
+    boolean isCancelled = false;
 
     @Override
     public boolean isCancelled() {

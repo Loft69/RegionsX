@@ -2,20 +2,22 @@ package dev.thew.regions.handler.database;
 
 import dev.thew.regions.handler.regionType.RegionTypeHandler;
 import dev.thew.regions.handler.settings.SettingsHandler;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import dev.thew.regions.handler.database.databases.RegionDatabase;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.logging.Level;
 
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public final class DatabaseService implements DatabaseHandler {
-
-    private final HashMap<String, Database> databases = new HashMap<>();
-    private final SettingsHandler settingsHandler;
-    private final RegionTypeHandler regionTypeHandler;
+    HashMap<String, Database> databases = new HashMap<>();
+    SettingsHandler settingsHandler;
+    RegionTypeHandler regionTypeHandler;
 
     @SneakyThrows
     public void load() {

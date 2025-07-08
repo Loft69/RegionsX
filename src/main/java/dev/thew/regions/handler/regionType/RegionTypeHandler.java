@@ -7,11 +7,9 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 public interface RegionTypeHandler extends Handler {
-
     RegionType getType(String regionTypeId);
     RegionType getType(ItemStack itemStack);
     boolean isCustomBlock(ItemStack itemStack);
     boolean isRegionBlock(Block block);
     NamespacedKey getCustomKey();
-
 }

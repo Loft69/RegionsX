@@ -2,19 +2,22 @@ package dev.thew.regions;
 
 import dev.thew.regions.handler.*;
 import dev.thew.regions.utils.Message;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public final class Regions extends JavaPlugin {
 
     @Getter
     @Setter
-    private static Regions instance;
-    private final HandlerService handlerService = new HandlerService();
+    static Regions instance;
+    final HandlerService handlerService = new HandlerService();
 
     @Override
     public void onEnable() {

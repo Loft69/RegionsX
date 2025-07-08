@@ -1,6 +1,8 @@
 package dev.thew.regions.menu;
 
+import lombok.AccessLevel;
 import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -10,10 +12,10 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class StaticMenu implements InventoryHolder {
-
-    private final Inventory inventory;
-    private final HashMap<Integer, OnClick> onClickList = new HashMap<>();
+    Inventory inventory;
+    HashMap<Integer, OnClick> onClickList = new HashMap<>();
 
     public StaticMenu(int size, String title) {
         inventory = Bukkit.createInventory(this, size, title);

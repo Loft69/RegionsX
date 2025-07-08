@@ -4,6 +4,7 @@ import dev.thew.regions.event.RegionExplodeEvent;
 import dev.thew.regions.event.RegionRemovePrimeEvent;
 import dev.thew.regions.model.BreakCause;
 import dev.thew.regions.utils.Message;
+import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import dev.thew.regions.Regions;
@@ -13,6 +14,7 @@ import dev.thew.regions.handler.menu.MenuHandler;
 import dev.thew.regions.handler.region.RegionHandler;
 import dev.thew.regions.handler.regionType.RegionTypeHandler;
 import dev.thew.regions.handler.Handler;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -29,11 +31,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BlocksObserverService implements Listener, Handler {
-
-    private final RegionHandler regionsService;
-    private final RegionTypeHandler regionTypesService;
-    private final MenuHandler menuService;
+    RegionHandler regionsService;
+    RegionTypeHandler regionTypesService;
+    MenuHandler menuService;
 
     @Override
     public void load() {

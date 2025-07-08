@@ -7,6 +7,7 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import dev.thew.regions.handler.database.DatabaseHandler;
 import dev.thew.regions.utils.Message;
+import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import dev.thew.regions.Regions;
@@ -14,6 +15,7 @@ import dev.thew.regions.handler.database.databases.RegionDatabase;
 import dev.thew.regions.event.RegionCreateEvent;
 import dev.thew.regions.event.RegionRemoveEvent;
 import dev.thew.regions.model.*;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,10 +30,10 @@ import org.bukkit.plugin.PluginManager;
 import java.util.*;
 
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RegionService implements RegionHandler {
-
-    private final HashMap<WorldPart, List<Region>> cache = new HashMap<>();
-    private final DatabaseHandler databaseHandler;
+    HashMap<WorldPart, List<Region>> cache = new HashMap<>();
+    DatabaseHandler databaseHandler;
 
     @Override
     public void load() {

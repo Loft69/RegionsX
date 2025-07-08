@@ -1,15 +1,17 @@
 package dev.thew.regions.handler.database;
 
+import lombok.AccessLevel;
 import lombok.SneakyThrows;
 import dev.thew.regions.Regions;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
 
 import java.sql.*;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class Database {
-
-    private Connection connection;
-    private final String url;
+    Connection connection;
+    final String url;
 
     @SneakyThrows
     protected Database(String url){

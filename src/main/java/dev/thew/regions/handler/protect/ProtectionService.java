@@ -1,12 +1,14 @@
 package dev.thew.regions.handler.protect;
 
 import dev.thew.regions.handler.bypass.BypassService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import dev.thew.regions.Regions;
 import dev.thew.regions.model.BypassResult;
 import dev.thew.regions.model.Region;
 import dev.thew.regions.handler.region.RegionHandler;
 import dev.thew.regions.handler.Handler;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -22,9 +24,9 @@ import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProtectionService implements Listener, Handler {
-
-    private final RegionHandler regionsService;
+    RegionHandler regionsService;
 
     @Override
     public void load() {

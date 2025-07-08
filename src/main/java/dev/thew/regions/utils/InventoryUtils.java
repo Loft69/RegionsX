@@ -10,7 +10,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.List;
 
 public class InventoryUtils {
-
     private InventoryUtils() {
         throw new IllegalStateException("Utility class");
     }
