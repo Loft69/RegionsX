@@ -32,9 +32,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-      - uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
-          files: |
-            *.jar
+      - name: List target directory
+        run: ls -l target
