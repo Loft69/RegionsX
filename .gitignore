@@ -10,5 +10,5 @@
 *.iml
 module-info.java
 .idea
-.md
 .github
+*.txt
