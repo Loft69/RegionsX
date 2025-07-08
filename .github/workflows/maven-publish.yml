@@ -33,10 +33,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Upload Release to GitHub
-        uses: marvinpinto/action-automatic-releases@latest
+      - uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "v1.5.9"
           prerelease: false
           files: |
             target/*.jar
