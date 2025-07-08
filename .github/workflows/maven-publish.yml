@@ -33,8 +33,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Upload .jar as artifact
-        uses: actions/upload-artifact@v4
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: regions-jar
-          path: target/*.jar
+          tag_name: auto-${{ github.run_number }}
+          name: Auto Build ${{ github.run_number }}
+          files: target/Regions.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

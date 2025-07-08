@@ -5,7 +5,7 @@
 
     <groupId>dev.thew</groupId>
     <artifactId>regions</artifactId>
-    <version>1.6.2</version>
+    <version>1.6.3</version>
     <packaging>jar</packaging>
 
     <name>RegionsX</name>
@@ -36,8 +36,12 @@
                 <version>3.8.1</version>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.2</version>
+                <configuration>
+                    <finalName>Regions</finalName> <!-- Имя .jar без .jar -->
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
