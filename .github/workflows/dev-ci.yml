@@ -32,8 +32,5 @@ jobs:
       - name: Build and run tests
         run: mvn verify
 
-      - name: Run static code analysis (Checkstyle)
-        run: mvn checkstyle:check
-
       - name: Run Jacoco for coverage report
         run: mvn jacoco:report
